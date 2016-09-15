@@ -12,6 +12,7 @@ var gulp            = require('gulp'),
 	gutil           = require('gulp-util'),
 	cache           = require('gulp-cache'),
 	ftp             = require('vinyl-ftp');
+	precss         = require('precss');
 	postcss         = require('gulp-postcss');
 	cssnext         = require('postcss-cssnext');
 	colorShort      = require('postcss-color-short');
@@ -38,6 +39,7 @@ gulp.task('serve', ['css'], function() {
 
 gulp.task('css', ['headercss', 'fonts'], function () {
 	var processors = [
+			precss,
 			cssnext,
 			colorShort,
 			short,
@@ -55,6 +57,7 @@ gulp.task('css', ['headercss', 'fonts'], function () {
 });
 gulp.task('headercss', function () {
 	var processors = [
+			precss,
 			cssnext,
 			extend,
 			mixins,
@@ -82,6 +85,7 @@ gulp.task('fonts', function () {
 gulp.task('libs', function() {
 	return gulp.src([
 		'app/libs/jquery/dist/jquery.min.js',
+		'app/libs/slick-carousel/slick/slick.min.js',
 		// 'app/libs/magnific-popup/magnific-popup.min.js'
 		])
 		.pipe(concat('libs.min.js'))
@@ -123,7 +127,7 @@ gulp.task('build', ['removedist', 'buildhtml', 'imagemin', 'css', 'libs'], funct
 	var buildCss = gulp.src([
 		'app/assets/final/fonts.min.css',
 		'app/assets/final/main.min.css'
-		]).pipe(gulp.dest('dist/css'));
+	]).pipe(gulp.dest('dist/assets/final'));
 
 	var buildFiles = gulp.src([
 		'app/.htaccess'
@@ -131,7 +135,7 @@ gulp.task('build', ['removedist', 'buildhtml', 'imagemin', 'css', 'libs'], funct
 
 	var buildFonts = gulp.src('app/fonts/**/*').pipe(gulp.dest('dist/fonts'));
 
-	var buildJs = gulp.src('app/assets/js/**/*').pipe(gulp.dest('dist/js'));
+	var buildJs = gulp.src('app/assets/js/**/*').pipe(gulp.dest('dist/assets/js'));
 
 });
 
