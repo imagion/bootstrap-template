@@ -11,15 +11,15 @@ var gulp            = require('gulp'),
 	removeHtml      = require('gulp-remove-html'),
 	gutil           = require('gulp-util'),
 	cache           = require('gulp-cache'),
-	ftp             = require('vinyl-ftp');
-	precss         = require('precss');
-	postcss         = require('gulp-postcss');
-	cssnext         = require('postcss-cssnext');
-	colorShort      = require('postcss-color-short');
-	short           = require('postcss-short');
-	extend          = require('postcss-extend');
-	mixins          = require('postcss-mixins');
-	imports         = require('postcss-partial-import');
+	ftp             = require('vinyl-ftp'),
+	precss          = require('precss'),
+	postcss         = require('gulp-postcss'),
+	cssnext         = require('postcss-cssnext'),
+	colorShort      = require('postcss-color-short'),
+	short           = require('postcss-short'),
+	extend          = require('postcss-extend'),
+	mixins          = require('postcss-mixins'),
+	imports         = require('postcss-partial-import'),
 	svg             = require('postcss-svg-fragments');
 
 // === Static Server + Watcher === //

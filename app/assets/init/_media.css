@@ -1,30 +1,32 @@
 @import "vars";
 
-/* Custom, iPhone Retina */
-@media only screen and (min-width : 320px) {
+@mixin for-phone-only {
 
 }
 
-
-/* Extra Small Devices, Phones */
-@media only screen and (min-width : 480px) {
+@mixin for-tablet-portrait-up {
 
 }
 
+@mixin for-tablet-portait-only {
 
-/* Small Devices, Tablets */
-@media only screen and (min-width : 768px) {
+}
+@mixin for-tablet-landscape-up {
 
 }
 
-
-/* Medium Devices, Desktops */
-@media only screen and (min-width : 992px) {
+@mixin for-tablet-landscape-only {
 
 }
 
+@mixin for-desktop-up {
 
-/* Large Devices, Wide Screens */
-@media only screen and (min-width : 1200px) {
+}
+
+@mixin for-desktop-only {
+
+}
+
+@mixin for-big-desktop-up {
 
 }
