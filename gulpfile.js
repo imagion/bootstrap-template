@@ -1,145 +1,115 @@
 var gulp            = require('gulp'),
-	browserSync     = require('browser-sync').create(),
+	browserSync     = require('browser-sync'),
 	del             = require('del'),
 	cssnano         = require('gulp-cssnano'),
 	uglify          = require('gulp-uglify'),
 	rename          = require('gulp-rename'),
 	concat          = require('gulp-concat'),
 	imagemin        = require('gulp-imagemin'),
-	pngquant        = require('imagemin-pngquant'),
-	fileInclude     = require('gulp-file-include'),
-	removeHtml      = require('gulp-remove-html'),
+	notify          = require("gulp-notify");
 	gutil           = require('gulp-util'),
 	cache           = require('gulp-cache'),
 	ftp             = require('vinyl-ftp'),
+
 	precss          = require('precss'),
 	postcss         = require('gulp-postcss'),
 	cssnext         = require('postcss-cssnext'),
-	colorShort      = require('postcss-color-short'),
+	fontMagician    = require('postcss-font-magician'),
 	short           = require('postcss-short'),
 	extend          = require('postcss-extend'),
 	mixins          = require('postcss-mixins'),
-	imports         = require('postcss-partial-import'),
-	svg             = require('postcss-svg-fragments');
+	imports         = require('postcss-partial-import');
 
-// === Static Server + Watcher === //
-
-gulp.task('serve', ['css'], function() {
-
-	browserSync.init({
-		server: "./app"
-	});
-	gulp.watch("app/header.css", ['headercss']);
-	gulp.watch("app/assets/init/*.css", ['css']);
-	gulp.watch("app/*.html").on('change', browserSync.reload);
-	gulp.watch('app/assets/js/**/*.js', browserSync.reload);
+gulp.task('common-js', function() {
+	return gulp.src([
+		'app/js/common.js',
+		])
+	.pipe(concat('common.min.js'))
+	.pipe(uglify())
+	.pipe(gulp.dest('app/js'));
 });
 
-// === CSS main task === //
-
-gulp.task('css', ['headercss', 'fonts'], function () {
-	var processors = [
-			precss,
-			cssnext,
-			colorShort,
-			short,
-			extend,
-			mixins,
-			imports,
-			svg
-	];
-	return gulp.src(['./app/assets/init/main.css'])
-		.pipe(postcss(processors))
-		.pipe(rename({suffix: '.min', prefix : ''}))
-		.pipe(cssnano())
-		.pipe(gulp.dest('./app/assets/final/'))
-		.pipe(browserSync.stream());
-});
-gulp.task('headercss', function () {
-	var processors = [
-			precss,
-			cssnext,
-			extend,
-			mixins,
-			imports,
-			colorShort,
-			short,
-			svg
-	];
-	return gulp.src('./app/header.css')
-		.pipe(postcss(processors))
-		.pipe(rename({suffix: '.min', prefix : ''}))
-		.pipe(cssnano())
-		.pipe(gulp.dest('app'))
-		.pipe(browserSync.stream());
-});
-gulp.task('fonts', function () {
-	return gulp.src('./app/assets/init/fonts.css')
-	.pipe(rename({suffix: '.min', prefix : ''}))
-	.pipe(gulp.dest('./app/assets/final/'))
-	.pipe(browserSync.stream());
-});
-
-// === Libs Concat === //
-
-gulp.task('libs', function() {
+gulp.task('js', ['common-js'], function() {
 	return gulp.src([
 		'app/libs/jquery/dist/jquery.min.js',
-		'app/libs/slick-carousel/slick/slick.min.js',
-		// 'app/libs/magnific-popup/magnific-popup.min.js'
+		'app/js/common.min.js', // Всегда в конце
 		])
-		.pipe(concat('libs.min.js'))
-		.pipe(uglify())
-		.pipe(gulp.dest('app/assets/js'));
+	.pipe(concat('scripts.min.js'))
+	// .pipe(uglify()) // Минимизировать весь js (на выбор)
+	.pipe(gulp.dest('app/js'))
+	.pipe(browserSync.reload({stream: true}));
 });
 
-// === Images Minify === //
+gulp.task('browser-sync', function() {
+	browserSync({
+		server: {
+			baseDir: 'app'
+		},
+		notify: false,
+		// tunnel: true,
+		// tunnel: "projectmane", //Demonstration page: http://projectmane.localtunnel.me
+	});
+});
+
+gulp.task('css', function () {
+	var processors = [
+			precss,
+			cssnext,
+			fontMagician({
+				variants: {
+							'Roboto': {
+								'400': [],
+								'700': []
+							}
+						},
+						formats: 'woff ttf eot',
+						hosted: ['app/fonts/Roboto']
+			}),
+			short,
+			extend,
+			mixins,
+			imports
+	];
+	return gulp.src(['./app/init/main.css'])
+		.pipe(postcss(processors))
+		.pipe(rename({suffix: '.min', prefix : ''}))
+		.pipe(cssnano())
+		.pipe(gulp.dest('./app/css/'))
+		.pipe(browserSync.reload({stream: true}));
+});
+
+gulp.task('watch', ['css', 'js', 'browser-sync'], function() {
+	gulp.watch('app/sass/**/*.sass', ['sass']);
+	gulp.watch(['libs/**/*.js', 'app/js/common.js'], ['js']);
+	gulp.watch('app/*.html', browserSync.reload);
+});
 
 gulp.task('imagemin', function() {
 	return gulp.src('app/img/**/*')
-		.pipe(cache(imagemin({
-			interlaced: true,
-			progressive: true,
-			use: [pngquant()]
-		})))
-		.pipe(gulp.dest('dist/img'));
+	.pipe(cache(imagemin()))
+	.pipe(gulp.dest('dist/img'));
 });
 
-// === Include Header to HTML === //
-
-gulp.task('buildhtml', function() {
-  gulp.src(['app/*.html'])
-	.pipe(fileInclude({
-	  prefix: '@@'
-	}))
-	.pipe(removeHtml())
-	.pipe(gulp.dest('dist/'));
-});
-
-// === Delete 'dist' folder === //
-
-gulp.task('removedist', function() { return del.sync('dist'); });
-
-// === Build 'dist' folder === //
-
-gulp.task('build', ['removedist', 'buildhtml', 'imagemin', 'css', 'libs'], function() {
-
-	var buildCss = gulp.src([
-		'app/assets/final/fonts.min.css',
-		'app/assets/final/main.min.css'
-	]).pipe(gulp.dest('dist/assets/final'));
+gulp.task('build', ['removedist', 'imagemin', 'css', 'js'], function() {
 
 	var buildFiles = gulp.src([
-		'app/.htaccess'
-	]).pipe(gulp.dest('dist'));
+		'app/*.html',
+		'app/.htaccess',
+		]).pipe(gulp.dest('dist'));
 
-	var buildFonts = gulp.src('app/fonts/**/*').pipe(gulp.dest('dist/fonts'));
+	var buildCss = gulp.src([
+		'app/css/main.min.css',
+		]).pipe(gulp.dest('dist/css'));
 
-	var buildJs = gulp.src('app/assets/js/**/*').pipe(gulp.dest('dist/assets/js'));
+	var buildJs = gulp.src([
+		'app/js/scripts.min.js',
+		]).pipe(gulp.dest('dist/js'));
+
+	var buildFonts = gulp.src([
+		'app/fonts/**/*',
+		]).pipe(gulp.dest('dist/fonts'));
 
 });
-
-// === Deploy === //
 
 gulp.task('deploy', function() {
 
@@ -160,10 +130,7 @@ gulp.task('deploy', function() {
 
 });
 
-// === Clear Cache === //
-
+gulp.task('removedist', function() { return del.sync('dist'); });
 gulp.task('clearcache', function () { return cache.clearAll(); });
 
-// === Default === //
-
-gulp.task('default', ['serve']);
+gulp.task('default', ['watch']);
