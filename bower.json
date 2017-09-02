@@ -3,17 +3,18 @@
   "description": "Bootstrap starter project",
   "version": "0.0.1",
   "authors": [
-    "imagion <algernoncowperwood@gmail.com>"
+	"imagion <algernoncowperwood@gmail.com>"
   ],
   "main": [
-    "init/main.css",
-    "js/common.js"
+	"init/main.css",
+	"js/common.js"
   ],
   "keywords": [
-    "HTML5"
+	"HTML5"
   ],
   "license": "MIT",
   "dependencies": {
-    "jquery": "^3.1.0"
+	"jquery": "^3.2.1",
+	"slick-carousel": "^1.7.1"
   }
 }
