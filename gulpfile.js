@@ -11,11 +11,13 @@ var gulp            = require('gulp'),             // core
 	// plumber         = require('gulp-plumber'),     // error handler
 	sourcemaps      = require('gulp-sourcemaps'),  // sourcemaps
 	ftp             = require('vinyl-ftp'),        // upload files FTP
-	// последний precss не фурычит с последним postcss (16.08.17)
 	precss          = require('precss'),           // sass-like syntax
+	// последний precss (3.1.0) использовать с postcss-easy-import
 	postcss         = require('gulp-postcss'),     // postcss core
 	cssnext         = require('postcss-cssnext'),  // css4 syntax
 	short           = require('postcss-short');    // shorthand css properties
+	rsync           = require('gulp-rsync');
+	easyimport      = require('postcss-easy-import'); // temporary variables import solution
 
 gulp.task('common-js', function() {
 	return gulp.src([
@@ -42,11 +44,15 @@ gulp.task('browser-sync', function() {
 		server: {
 			baseDir: 'app'
 		},
+		notify: false,
+		// tunnel: true,
+		// tunnel: "projectmane", //Demonstration page: http://projectmane.localtunnel.me
 	});
 });
 
 gulp.task('css', function () {
 	var processors = [
+			easyimport,
 			precss,
 			cssnext,
 			short,
@@ -56,7 +62,8 @@ gulp.task('css', function () {
 		.pipe(rename({suffix: '.min', prefix : ''}))
 		.pipe(cssnano())
 		.pipe(gulp.dest('./app/css/'))
-		.pipe(browserSync.stream());
+		.pipe(browserSync.reload({stream: true}));
+		// .pipe(browserSync.stream());
 });
 
 gulp.task('watch', ['css', 'js', 'browser-sync'], function() {
@@ -67,7 +74,7 @@ gulp.task('watch', ['css', 'js', 'browser-sync'], function() {
 
 gulp.task('imagemin', function() {
 	return gulp.src('app/img/**/*')
-	.pipe(cache(imagemin()))
+	.pipe(cache(imagemin())) // Cache Images
 	.pipe(gulp.dest('dist/img'));
 });
 
@@ -109,6 +116,20 @@ gulp.task('deploy', function() {
 	return gulp.src(globs, {buffer: false})
 	.pipe(conn.dest('/path/to/folder/on/server'));
 
+});
+
+gulp.task('rsync', function() {
+	return gulp.src('dist/**')
+	.pipe(rsync({
+		root: 'dist/',
+		hostname: 'username@yousite.com',
+		destination: 'yousite/public_html/',
+		// include: ['*.htaccess'], // Скрытые файлы, которые необходимо включить в деплой
+		recursive: true,
+		archive: true,
+		silent: false,
+		compress: true
+	}));
 });
 
 gulp.task('removedist', function() { return del.sync('dist'); });
