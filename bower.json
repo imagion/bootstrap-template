@@ -6,7 +6,7 @@
 	"imagion <algernoncowperwood@gmail.com>"
   ],
   "main": [
-	"init/main.css",
+	"scss/main.scss",
 	"js/common.js"
   ],
   "keywords": [
@@ -14,7 +14,6 @@
   ],
   "license": "MIT",
   "dependencies": {
-	"jquery": "^3.2.1",
-	"slick-carousel": "^1.7.1"
+	"jquery": "^3.2.1"
   }
 }
