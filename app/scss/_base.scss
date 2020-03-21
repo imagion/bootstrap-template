@@ -1,0 +1,76 @@
+::placeholder {
+  color: $gray-600;
+}
+
+::selection {
+  background-color: $accent;
+  color: $white;
+}
+
+input,
+textarea {
+  outline: none;
+  &:focus:required:invalid { border-color: $red; }
+  &:required:valid { border-color: $green; }
+}
+
+body {
+  position: relative;
+  overflow-x: hidden;
+  min-width: 320px;
+  color: $textcolor;
+  font-family: $roboto;
+  font-size: $fontsize;
+  line-height: 1.65;
+}
+
+b,
+strong {
+  color: $gray-700;
+  font-weight: bold;
+}
+
+a {
+  color: $accent;
+  text-decoration: none;
+  transition: all .3s ease-out;
+
+  &:hover {
+    color: $gray-700;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  &:active {
+    color: $gray-800;
+  }
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: robotomono, monospace;
+}
+
+.button {
+  background: $accent;
+  border-color: $accent;
+  color: $white;
+
+  &:hover,
+  &:focus {
+    background-color: darken($accent, 3%);
+    border-color: darken($accent, 3%);
+    color: $gray-500;
+    cursor: pointer;
+  }
+
+  &:active {
+    color: $white;
+  }
+}
+
+.img-responsive {
+  max-width: 100%;
+}

@@ -1,4 +1,17 @@
-@import "_mixins/font-face";
+@mixin font($fname, $fstyle, $fweight, $furl) {
+  @font-face {
+    font-family: $fname;
+    font-style: $fstyle;
+    font-weight: $fweight;
+    font-display: swap;
+    src: local($fname), url(($furl) + '.woff2') format('woff2'),
+      url(($furl) + '.woff') format('woff');
+  }
+}
 
-@include font-face("roboto", "../fonts/RobotoRegular/RobotoRegular");
-@include font-face("roboto", "../fonts/RobotoBold/RobotoBold", bold);
+
+@include font("roboto", normal, 400, "../fonts/RobotoRegular/RobotoRegular");
+@include font("roboto", normal, 700, "../fonts/RobotoBold/RobotoBold");
+@include font("roboto", normal, 900, "../fonts/RobotoBlack/RobotoBlack");
+@include font("robotoCondensed", normal, 400, "../fonts/RobotoCondensedRegular/RobotoCondensedRegular");
+@include font("robotoCondensed", normal, 700, "../fonts/RobotoCondensedBold/RobotoCondensedBold");
