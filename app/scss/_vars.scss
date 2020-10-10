@@ -1,5 +1,10 @@
-$accent: orange; // Accent Color
-$fontsize: 16px; // Body Font Size
-$textcolor: #333; // Text Color
 $system: -apple-system, BlinkMacSystemFont, Arial, sans-serif; // System Font Family
 $roboto: Roboto, sans-serif; // Roboto Font Family
+$fontSize: 16px; // Body Font Size
+$textColor: #343434; // Text Color
+$textAccent: #ffffff; // Text Color
+$accentColor: #ff8400; // Accent Color
+$paragraphColor: #5c5c5c; // Text Color
+
+$grid-gutter-width: 20px;
+$gutter: $grid-gutter-width;

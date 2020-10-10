@@ -1,76 +1,72 @@
-::placeholder {
-  color: $gray-600;
-}
-
-::selection {
-  background-color: $accent;
-  color: $white;
-}
-
-input,
-textarea {
-  outline: none;
-  &:focus:required:invalid { border-color: $red; }
-  &:required:valid { border-color: $green; }
-}
-
 body {
-  position: relative;
   overflow-x: hidden;
-  min-width: 320px;
-  color: $textcolor;
-  font-family: $roboto;
-  font-size: $fontsize;
-  line-height: 1.65;
+  line-height: 1.5;
+  min-height: 100vh;
+  scroll-behavior: smooth;
 }
 
-b,
-strong {
-  color: $gray-700;
-  font-weight: bold;
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: $textColor;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
 }
 
 a {
-  color: $accent;
+  color: $accentColor;
   text-decoration: none;
-  transition: all .3s ease-out;
-
   &:hover {
-    color: $gray-700;
-    cursor: pointer;
-    text-decoration: underline;
-  }
-
-  &:active {
-    color: $gray-800;
+    text-decoration: none;
   }
 }
 
-code,
-kbd,
-pre,
-samp {
-  font-family: robotomono, monospace;
+input, textarea {
+  padding: 10px;
+  border-radius: 3px;
+  &:focus {
+    outline: 1px solid #666;
+  }
+  &::placeholder {
+    color: #bfbfbf;
+  }
 }
+
 
 .button {
-  background: $accent;
-  border-color: $accent;
-  color: $white;
-
+  display: inline-block;
+  padding: 1.2em 2.5em;
+  border: 2px solid $textAccent;
+  background-color: transparent;
+  color: $textAccent;
+  font-size: 1.125em;
+  line-height: 1.5;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 500;
+  vertical-align: middle;
+  user-select: none;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out,
+              background-color .15s ease-in-out,
+              border-color .15s ease-in-out,
+              box-shadow .15s ease-in-out;
   &:hover,
-  &:focus {
-    background-color: darken($accent, 3%);
-    border-color: darken($accent, 3%);
-    color: $gray-500;
-    cursor: pointer;
-  }
-
   &:active {
-    color: $white;
+    background-color: $textAccent;
+    border-color: $textAccent;
+    color: $textColor;
   }
 }
 
-.img-responsive {
-  max-width: 100%;
-}
