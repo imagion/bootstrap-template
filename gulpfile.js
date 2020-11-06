@@ -26,7 +26,7 @@ let paths = {
     scripts: {
         src: [
             baseDir + '/vendor/jquery/dist/jquery.min.js',
-            baseDir + '/vendor/slick-1.8.1/slick/slick.min.js',
+            baseDir + '/vendor/slick/slick/slick.min.js',
             baseDir + '/js/main.js'
         ],
         dest: baseDir + '/js',
