@@ -1,10 +1,12 @@
+// FONTS
 $system: -apple-system, BlinkMacSystemFont, Arial, sans-serif; // System Font Family
 $roboto: Roboto, sans-serif; // Roboto Font Family
+$fontFamily: $roboto; // Default font
+$headlineFontFamily: $roboto; // Headlines font
 $fontSize: 16px; // Body Font Size
-$textColor: #343434; // Text Color
-$textAccent: #ffffff; // Text Color
-$accentColor: #ff8400; // Accent Color
-$paragraphColor: #5c5c5c; // Text Color
-
-$grid-gutter-width: 20px;
-$gutter: $grid-gutter-width;
+// COLORS
+$textMain: #343434; // Main Text Color
+$textSecondary: #5c5c5c; // Paragraph Text Color
+$textWhite: #f3f3f3; // Text Color on Dark
+$accent: #ff8400; // Accent Color
+$white: #ffffff; // White Color

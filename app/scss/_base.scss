@@ -1,7 +1,9 @@
 body {
+  min-height: 100vh;
   overflow-x: hidden;
   line-height: 1.5;
-  min-height: 100vh;
+  font-family: $fontFamily;
+  font-size: $fontSize;
   scroll-behavior: smooth;
 }
 
@@ -11,62 +13,87 @@ a:not([class]) {
 
 @media (prefers-reduced-motion: reduce) {
   * {
+    transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: $textColor;
-  line-height: 1.2;
   margin-bottom: 0.5rem;
+  line-height: 1.2;
+  font-family: $headlineFontFamily;
+  color: $textMain;
 }
 
 a {
-  color: $accentColor;
   text-decoration: none;
+  color: $accent;
   &:hover {
     text-decoration: none;
   }
 }
 
 input, textarea {
-  padding: 10px;
+  border: 1px solid #333;
   border-radius: 3px;
+  background-color: transparent;
+  padding: 10px;
+  font-family: $roboto;
+  color: $textWhite;
   &:focus {
-    outline: 1px solid #666;
+    outline: none;
+    border: 1px solid $accent;
   }
   &::placeholder {
     color: #bfbfbf;
   }
 }
 
-
-.button {
+.btn {
   display: inline-block;
-  padding: 1.2em 2.5em;
-  border: 2px solid $textAccent;
-  background-color: transparent;
-  color: $textAccent;
-  font-size: 1.125em;
-  line-height: 1.5;
-  text-align: center;
-  text-transform: uppercase;
-  font-weight: 500;
-  vertical-align: middle;
-  user-select: none;
-  border-radius: .25rem;
   transition: color .15s ease-in-out,
               background-color .15s ease-in-out,
               border-color .15s ease-in-out,
               box-shadow .15s ease-in-out;
-  &:hover,
-  &:active {
-    background-color: $textAccent;
-    border-color: $textAccent;
-    color: $textColor;
+  border: 2px solid $white;
+  border-radius: .25rem;
+  background-color: transparent;
+  padding: 1.2em 2.5em;
+  vertical-align: middle;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.5;
+  font-size: 1.125em;
+  font-weight: 500;
+  color: $white;
+  user-select: none;
+  &:hover, &:active {
+    border-color: $white;
+    background-color: $white;
+    color: $textMain;
+  }
+  &.btn_filled {
+    border-color: $accent;
+    background-color: $accent;
+    color: $white;
+    &:hover, &:active {
+      border-color: $white;
+      background-color: $white;
+      color: $accent;
+    }
+  }
+  &.btn_ghost {
+    border-color: $white;
+    &:hover, &:active {
+      border-color: $accent;
+      background-color: transparent;
+      color: $white;
+    }
   }
 }
 
+.text-center { text-align: center; }
+
+.hide { display: none!important; }
