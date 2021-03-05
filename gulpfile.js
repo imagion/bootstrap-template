@@ -35,6 +35,7 @@ let paths = {
     plugins: {
         src: [
             baseDir + '/vendor/jquery/jquery.min.js',
+            baseDir + '/vendor/gsap/minified/gsap.min.js',
             // baseDir + '/vendor/modernizr/modernizr-custom.js',
             // baseDir + '/vendor/slick/slick/slick.min.js',
             // baseDir + '/vendor/slick-lightbox/slick-lightbox.min.js',
