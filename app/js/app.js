@@ -1,25 +1,14 @@
-$( document ).ready(function() {
+// * Import jQuery module (npm i jquery)
+// import $ from 'jquery'
+// window.jQuery = $
+// window.$ = $
 
-    $('.works-carousel').slick({
-        arrows: false,
-        dots: true,
-    });
+// * Import vendor jQuery plugin example (not module)
+// require('~/app/libs/mmenu/dist/mmenu.js')
 
-    var scTop = $('#top'); // Get the button
-    var winH = $(window).height(); // Get the window height.
-    
-    $(window).on("scroll", function () {
-        if ($(this).scrollTop() > winH) {
-            scTop.addClass("show");
-        } else {
-            scTop.removeClass("show");
-        }
-    }).on("resize", function () { // If the user resizes the window
-        winH = $(this).height(); // you'll need the new height value
-    });
 
-    scTop.click(function () {
-        $(window).scrollTop(0);
-    });
+document.addEventListener('DOMContentLoaded', () => {
+
+    // Custom JS
 
 });

@@ -1,0 +1,41 @@
+body {
+  font-family: $userFont;
+  font-size: $fontSize;
+  line-height: $lineHeight;
+  color: $textColor;
+  min-width: 320px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+input, textarea {
+  outline: none;
+  &:focus:required:invalid {
+    border-color: red;
+  }
+  &:required:valid {
+    border-color: green;
+  }
+}
+
+::placeholder {
+  color: #666;
+}
+
+::selection {
+  background-color: $accent;
+  color: #fff;
+}
+
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
