@@ -98,7 +98,7 @@ function purge() {
       keyframes: true,
       safelist: []
     }))
-    .pipe(dest('dist'))
+    .pipe(dest('dist/css'))
 }
 
 function cleandist() {
