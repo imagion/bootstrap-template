@@ -9,6 +9,6 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Custom JS
+  // Custom JS
 
 });

@@ -1,6 +1,25 @@
-@import "fonts";
-@import "vendor";
-@import "vars";
-@import "base";
-@import "main";
-@import "media";
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import 'node_modules/bootstrap/scss/functions';
+
+// 2. Include any default variable overrides here
+@import 'abstracts/custom-variables';
+
+// 3. Include remainder of required Bootstrap stylesheets
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins';
+
+// 4. Optional Bootstrap components
+@import 'vendor/bootstrap';
+
+// 5. Custom code
+@import 'abstracts/variables';
+@import 'abstracts/mixins';
+
+@import 'base/fonts';
+@import 'base/root';
+@import 'base/reset';
+@import 'base/typography';
+@import 'base/main';
+
+@import 'layouts/home';
+@import 'layouts/footer';

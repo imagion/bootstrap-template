@@ -1,18 +1,18 @@
-const { series, parallel, dest, src, watch } = require('gulp')
-const autoprefixer   = require('gulp-autoprefixer')
-const browserSync    = require('browser-sync').create()
-const bssi           = require('browsersync-ssi')
-const cleancss       = require('gulp-clean-css')
-const del            = require('del')
-const imagemin       = require('gulp-imagemin')
-const newer          = require('gulp-newer')
-// const purgecss       = require('gulp-purgecss')
-const rename         = require('gulp-rename')
-const rsync          = require('gulp-rsync')
-const sass           = require('gulp-sass')
-const sassglob       = require('gulp-sass-glob')
-const ssi            = require('ssi')
-const webpack        = require('webpack-stream')
+const { series, parallel, dest, src, watch } = require('gulp');
+const autoprefixer   = require('gulp-autoprefixer');
+const browserSync    = require('browser-sync').create();
+const bssi           = require('browsersync-ssi');
+const cleancss       = require('gulp-clean-css');
+const del            = require('del');
+const imagemin       = require('gulp-imagemin');
+const newer          = require('gulp-newer');
+// const purgecss       = require('gulp-purgecss');
+const rename         = require('gulp-rename');
+const rsync          = require('gulp-rsync');
+const sass           = require('gulp-sass');
+const sassglob       = require('gulp-sass-glob');
+const ssi            = require('ssi');
+const webpack        = require('webpack-stream');
 
 function browsersync() {
     browserSync.init({
@@ -59,6 +59,13 @@ function styles() {
         .pipe(eval(`sassglob`)())
         .pipe(eval(sass)())
         .pipe(autoprefixer({ overrideBrowserslist: ['last 10 versions'], grid: true }))
+        // .pipe(purgecss({
+        //   content: [ 'app/*.html' ],
+        //   css: [ `app/sass/*.*`, `!app/sass/_*.*` ],
+        //   variables: true,
+        //   keyframes: true,
+        //   safelist: []
+        // }))
         .pipe(cleancss({ level: { 1: { specialComments: 0 } },/* format: 'beautify' */ }))
         .pipe(rename({ suffix: ".min" }))
         .pipe(dest('app/css'))
@@ -67,16 +74,16 @@ function styles() {
 
 function images() {
     return src(['app/img/src/**/*'])
-        .pipe(newer('app/img/dist'))
+        .pipe(newer('app/img/'))
         .pipe(imagemin())
-        .pipe(dest('app/img/dist'))
+        .pipe(dest('app/img/'))
         .pipe(browserSync.stream())
 }
 
 function buildcopy() {
     return src([
         '{app/js,app/css}/*.min.*',
-        'app/images/**/*.*', '!app/images/src/**/*',
+        'app/img/**/*.*', '!app/img/src/**/*',
         'app/fonts/**/*'
     ], { base: 'app/' })
         .pipe(dest('dist'))

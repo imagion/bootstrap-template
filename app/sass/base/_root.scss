@@ -1,0 +1,5 @@
+$variable-prefix: bs-;
+
+:root {
+  --#{$variable-prefix}font-sans-serif: #{inspect($user-font-family)}, #{inspect($font-family-sans-serif)};
+}
